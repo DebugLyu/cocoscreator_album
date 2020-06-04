@@ -1,0 +1,130 @@
+window.__require = function t(e, o, r) {
+function n(a, i) {
+if (!o[a]) {
+if (!e[a]) {
+var s = a.split("/");
+s = s[s.length - 1];
+if (!e[s]) {
+var u = "function" == typeof __require && __require;
+if (!i && u) return u(s, !0);
+if (c) return c(s, !0);
+throw new Error("Cannot find module '" + a + "'");
+}
+a = s;
+}
+var p = o[a] = {
+exports: {}
+};
+e[a][0].call(p.exports, function(t) {
+return n(e[a][1][t] || t);
+}, p, p.exports, t, e, o, r);
+}
+return o[a].exports;
+}
+for (var c = "function" == typeof __require && __require, a = 0; a < r.length; a++) n(r[a]);
+return n;
+}({
+Http: [ function(t, e, o) {
+"use strict";
+cc._RF.push(e, "42dd0NNJk5PrJXR3K0gMGJM", "Http");
+Object.defineProperty(o, "__esModule", {
+value: !0
+});
+var r = function() {
+function t() {}
+t.get = function(t, e) {
+var o = cc.loader.getXMLHttpRequest();
+o.onreadystatechange = function() {
+if (4 === o.readyState && o.status >= 200 && o.status < 300) {
+var t = o.responseText;
+e(t);
+}
+};
+o.open("GET", t, !0);
+cc.sys.isNative && o.setRequestHeader("Accept-Encoding", "gzip,deflate");
+o.timeout = 5e3;
+o.send();
+};
+t.post = function(t, e, o) {
+var r = cc.loader.getXMLHttpRequest();
+r.onreadystatechange = function() {
+cc.log("postRequest.readyState=" + r.readyState + "  postRequest.status=" + r.status);
+if (4 === r.readyState && r.status >= 200 && r.status < 300) {
+var t = r.responseText;
+o(t);
+} else o(-1);
+};
+r.open("POST", t, !0);
+cc.sys.isNative && r.setRequestHeader("Accept-Encoding", "gzip,deflate");
+r.timeout = 5e3;
+r.send(e);
+};
+return t;
+}();
+o.Http = r;
+cc._RF.pop();
+}, {} ],
+Test: [ function(t, e, o) {
+"use strict";
+cc._RF.push(e, "ad1f6mEiEZDUYlpnuQIt2VM", "Test");
+var r = this && this.__extends || function() {
+var t = function(e, o) {
+return (t = Object.setPrototypeOf || {
+__proto__: []
+} instanceof Array && function(t, e) {
+t.__proto__ = e;
+} || function(t, e) {
+for (var o in e) e.hasOwnProperty(o) && (t[o] = e[o]);
+})(e, o);
+};
+return function(e, o) {
+t(e, o);
+function r() {
+this.constructor = e;
+}
+e.prototype = null === o ? Object.create(o) : (r.prototype = o.prototype, new r());
+};
+}(), n = this && this.__decorate || function(t, e, o, r) {
+var n, c = arguments.length, a = c < 3 ? e : null === r ? r = Object.getOwnPropertyDescriptor(e, o) : r;
+if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) a = Reflect.decorate(t, e, o, r); else for (var i = t.length - 1; i >= 0; i--) (n = t[i]) && (a = (c < 3 ? n(a) : c > 3 ? n(e, o, a) : n(e, o)) || a);
+return c > 3 && a && Object.defineProperty(e, o, a), a;
+};
+Object.defineProperty(o, "__esModule", {
+value: !0
+});
+var c = cc._decorator, a = c.ccclass, i = c.property, s = function(t) {
+r(e, t);
+function e() {
+var e = null !== t && t.apply(this, arguments) || this;
+e.photo = null;
+return e;
+}
+e.prototype.start = function() {
+var t = this, e = jsb.fileUtils.getWritablePath();
+cc.game.on("PhotoPath", function(o) {
+console.log("path:", e + o + ".jpg");
+cc.loader.load(e + o + ".jpg", function(r, n) {
+cc.loader.release(e + o + ".jpg");
+if (r) console.error("error", r.message || r); else {
+console.log("aaaaaaaaaaaaaaaaa:", n instanceof cc.Texture2D);
+var c = new cc.SpriteFrame();
+c.setTexture(n);
+console.log("width", n.width, "height", n.height);
+var a = new cc.Node();
+a.addComponent(cc.Sprite).spriteFrame = c;
+a.parent = t.node;
+a.y = 300;
+}
+});
+});
+};
+e.prototype.openPhotoAlbum = function() {
+jsb.reflection.callStaticMethod("org/cocos2dx/javascript/AppActivity", "onOpenAlbum", "(I)V", 1);
+};
+n([ i(cc.Sprite) ], e.prototype, "photo", void 0);
+return e = n([ a ], e);
+}(cc.Component);
+o.default = s;
+cc._RF.pop();
+}, {} ]
+}, {}, [ "Http", "Test" ]);
